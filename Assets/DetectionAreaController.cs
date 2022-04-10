@@ -11,12 +11,4 @@ public class DetectionAreaController : MonoBehaviour
             Destroy(other.gameObject);
         }
     }
-
-    private void OnTriggerStay2D(Collider2D other) {
-        if(other.tag == "Enemy")
-        {
-            print("ojojo");
-            Destroy(other.gameObject);
-        }
-    }
 }
