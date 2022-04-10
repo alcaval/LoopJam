@@ -23,6 +23,7 @@ public class TrailController : MonoBehaviour
     {
         if(carController.isCarDrifting(out float latVelocity, out bool isDrifting))
         {
+            tr.time = 1.8f;
             tr.emitting = true;
             
             int i = tr.GetPositions(positions);
@@ -30,6 +31,7 @@ public class TrailController : MonoBehaviour
             List<Vector2> lista = new List<Vector2>();
             for(int j = 0; j < positions.Length - 1; j++)
             {
+                if(positions[j].x == 0 && positions[j].y == 0) break;
                 if(positions[j].x != 0 || positions[j].y != 0) lista.Add(new Vector2(positions[j].x, positions[j].y));
             }
 
@@ -40,40 +42,53 @@ public class TrailController : MonoBehaviour
         }
         else
         {
+            tr.time = 0.8f;
             ClearPoints(false);
         }
     }
 
     public void ClearPoints(bool boom)
     {
-        StartCoroutine(ClearPointsRoutine(boom));
-        positions = new Vector3[1000];
-        tr.emitting = false;
-    }
-
-    IEnumerator ClearPointsRoutine(bool boom)
-    {
+        //StartCoroutine(ClearPointsRoutine(boom));
         if(boom)
         {
             tr.Clear();  
             //_detectionArea.points = ec.points;
         } 
-        yield return new WaitForSeconds(0.2f);
+        //yield return new WaitForSeconds(0.2f);
         ec.Reset();
         ec.isTrigger = true;
+        positions = new Vector3[1000];
+        tr.emitting = false;
     }
+
+    // IEnumerator ClearPointsRoutine(bool boom)
+    // {
+    //     if(boom)
+    //     {
+    //         tr.Clear();  
+    //         //_detectionArea.points = ec.points;
+    //     } 
+    //     yield return new WaitForSeconds(0.2f);
+    //     ec.Reset();
+    //     ec.isTrigger = true;
+    // }
 
     public void setPolygon(Vector2 hit)
     {
         List<Vector2> newPoints = new List<Vector2>();
         
+        int i = 0;
+        bool ahoraSi = false;
         foreach(Vector2 v in ec.points)
         {
-            if(Vector2.Distance(hit,v) > 0.2)
+            if(ahoraSi)
             {
-                print("y tal");
                 newPoints.Add(v);
             }
+
+            if(Vector2.Distance(hit,v) < 0.4) ahoraSi = true;
+            i++;
         }
 
         _detectionArea.points = newPoints.ToArray();

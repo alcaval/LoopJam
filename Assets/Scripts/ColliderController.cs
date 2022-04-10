@@ -16,18 +16,12 @@ public class ColliderController : MonoBehaviour
     }
 
     private void OnTriggerEnter2D(Collider2D other) {
-        //ContactPoint2D[] contacts;
-        //int ncontacts = other.GetContacts(contacts)[0];
+
         if(carController.isCarDrifting(out float latVelocity, out bool isDrifting) && other.tag == "Car" && _switch)
         {
             Debug.Log("Tremendo loop");
+            trailController.setPolygon(other.ClosestPoint(transform.position));
             trailController.ClearPoints(true);
-            RaycastHit hit;
-            if (Physics.Raycast(transform.position, transform.forward, out hit))
-            {
-                Debug.Log("Point of contact: " + hit.point);
-                trailController.setPolygon(hit.point);
-            }
             cc.clearSelf();
         }
     }
