@@ -7,7 +7,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace TFMEsada
+namespace LoopJam
 {
     /// <summary>  
 	/// AI for the turret enemy, which tracks the player, rotates towards it and shoots at it.
@@ -22,6 +22,7 @@ namespace TFMEsada
         [SerializeField] private Transform _objective;
 
         [Tooltip("Speed the turret rotates towards its objective.")]
+        [Min(0.01f)]
         [SerializeField] private float _rotationSpeed;
 
         [Tooltip("How close the turret must be to its target to shoot.")]
@@ -34,28 +35,64 @@ namespace TFMEsada
 
         [Tooltip("Time between bullets.")]
         [SerializeField] private float _shootSpeed;
+        private float _timeSinceShot;
 
-	    #endregion
-	 
-	    #region LifeCycle
+        #endregion
 
-        private void Update() 
+        #region LifeCycle
+
+        private void Awake() 
         {
-            var direction = (_objective.position - transform.position).normalized;
-            var lookRotation = Quaternion.LookRotation(direction, Vector3.up);
-            // lookRotation = Quaternion.Euler(new Vector3(lookRotation.eulerAngles.x, 90, -90));
+            _objective = GameObject.FindGameObjectWithTag("Car").transform;    
+        }
 
-            Debug.Log(lookRotation.eulerAngles);
-
-            
-
+        private void Update()
+        {
+            if(!rotateTowardsObjective())
             {
-                // Rotate towards objective.
-                // transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * _rotationSpeed);
-                transform.rotation = lookRotation;
+                // Shoot
+                if(_timeSinceShot >= _shootSpeed)
+                {
+                    Instantiate(_bulletPrefab, transform.position + transform.right, transform.rotation);
+                    _timeSinceShot = 0;
+                }
+                else
+                {
+                    _timeSinceShot += Time.deltaTime;
+                }
+            }
+            else
+            {
+                _timeSinceShot = _shootSpeed/2;
             }
         }
-      
+
+        #endregion
+
+
+        #region Private Methods
+
+        private bool rotateTowardsObjective()
+        {
+            Vector3 targ = _objective.transform.position;
+            targ.z = 0f;
+
+            Vector3 objectPos = transform.position;
+            targ.x = targ.x - objectPos.x;
+            targ.y = targ.y - objectPos.y;
+
+            float angle = Mathf.Atan2(targ.y, targ.x) * Mathf.Rad2Deg;
+
+            if(Quaternion.Angle(transform.rotation, Quaternion.Euler(new Vector3(0, 0, angle))) > _rotationThreshold)
+            {
+                angle = Mathf.LerpAngle(transform.rotation.eulerAngles.z, angle, _rotationSpeed * Time.deltaTime);
+                transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
+                return true;
+            }
+
+            return false;
+        }
+
         #endregion
     }
 }
