@@ -99,7 +99,7 @@ public class CarController : MonoBehaviour
             return true;
         }
 
-        if(Mathf.Abs(GetLateralVelocity()) > 3f)
+        if(Mathf.Abs(GetLateralVelocity()) > 2.5f)
             return true;
         
         return false;

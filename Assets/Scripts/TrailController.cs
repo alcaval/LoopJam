@@ -23,7 +23,7 @@ public class TrailController : MonoBehaviour
     {
         if(carController.isCarDrifting(out float latVelocity, out bool isDrifting))
         {
-            tr.time = 1.8f;
+            tr.time = 2.5f;
             tr.emitting = true;
             
             int i = tr.GetPositions(positions);

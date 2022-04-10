@@ -26,8 +26,6 @@ public class ColliderController : MonoBehaviour
         }
     }
 
-    
-
     public void clearSelf()
     {
         trailController.ClearPoints(true);
