@@ -57,7 +57,7 @@ public class NewTrailController : MonoBehaviour
 
         float minDistance = Mathf.Infinity;
         int index = 0;
-        for(int i=0; i < _pointsAux.Count/2; ++i)
+        for(int i=0; i < 9*_pointsAux.Count/10; ++i)
         {
             Vector2 v = _pointsAux[i];
             if(Vector2.Distance(hit,v) <= minDistance)
