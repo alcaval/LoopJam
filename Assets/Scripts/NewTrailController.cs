@@ -15,6 +15,9 @@ public class NewTrailController : MonoBehaviour
 
     private bool _hasCleared = false;
 
+    private int numVerticesRelativo = 0;
+    Vector3[] positions = new Vector3[1000];
+
     private void Awake() {
         _carController = GetComponent<CarController>();
 
@@ -29,12 +32,33 @@ public class NewTrailController : MonoBehaviour
             _trailRendererLeft.emitting = true;
             _trailRendererRight.emitting = true;
 
-            _points.Add(GameObject.FindGameObjectWithTag("Player").transform.position);
+            //_points.Add(GameObject.FindGameObjectWithTag("Player").transform.position);
+            
+            int i = _trailRendererLeft.GetPositions(positions);
+            
+            List<Vector2> lista = new List<Vector2>();
+            for(int j = 0; j < positions.Length - 1; j++)
+            {
+                if(positions[j].x == 0 && positions[j].y == 0) break;
+                if(positions[j].x != 0 || positions[j].y != 0) lista.Add(new Vector2(positions[j].x, positions[j].y));
+            }
 
-            _edgeCollider.points = _points.ToArray();
+            Vector2[] v = lista.ToArray();
+
+            _edgeCollider.points = v;
+
+            // numVerticesRelativo = _trailRendererLeft.GetPositions(positions);
+
+            // foreach(Vector3 v in positions)
+            // {
+            //     if(v.x == 0f && v.y == 0) break;
+            //     _points.Add(v);
+            // }
+
+            //_edgeCollider.points = _points.ToArray();
             _hasCleared = false;
         }
-        else if(!_hasCleared)
+        else
         {
             _pointsAux = _points;
             ClearPoints();
@@ -44,6 +68,7 @@ public class NewTrailController : MonoBehaviour
 
     public void ClearPoints()
     {
+        positions = new Vector3[1000];
         _points.Clear();
         _edgeCollider.Reset();
         _edgeCollider.isTrigger = true;
@@ -54,6 +79,7 @@ public class NewTrailController : MonoBehaviour
     public void setPolygon(Vector2 hit)
     {
         List<Vector2> newPoints = new List<Vector2>();
+        int j = _edgeCollider.GetPoints(_pointsAux);
 
         float minDistance = Mathf.Infinity;
         int index = 0;

@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Car
   - Enemy
+  - UI
   layers:
   - Default
   - TransparentFX

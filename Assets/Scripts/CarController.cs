@@ -1,9 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CarController : MonoBehaviour
 {
+    [SerializeField] private Slider life;
+    [SerializeField] private CMScreenshake cmscreenshake;
+
     [SerializeField] private float accelerationFactor = 30f;
     [SerializeField] private float turnFactor = 3.5f;
     [SerializeField] private float maxSpeed = 20f;
@@ -18,25 +22,28 @@ public class CarController : MonoBehaviour
 
     private Rigidbody2D carRB;
 
+    private float lifeMultiplier = 1f;
+    private float healCooldown = 1f;
+
     private void Awake() 
     {
         carRB = GetComponent<Rigidbody2D>();
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
     }
 
     // Update is called once per frame
     void Update()
     {
         GetInput();
+
+        if(lifeMultiplier != 1f) StartCoroutine(HealCoroutine());
     }
 
     private void FixedUpdate() 
     {
+        if(Input.GetKeyDown(KeyCode.Space))
+        {
+            takeDamage(0.3f);
+        }
         ApplyEngineForce();
         KillOrthogonalVelocity();
         ApplySteering();
@@ -116,5 +123,22 @@ public class CarController : MonoBehaviour
             return true;
         
         return false;
+    }
+
+    public void takeDamage(float value)
+    {
+        cmscreenshake.ShakeCamera(8, 1f);
+        lifeMultiplier -= value;
+        life.value = lifeMultiplier;
+    }
+
+    IEnumerator HealCoroutine()
+    {   
+        if(!isCarDrifting(out float latVelocity, out bool isDrifting))
+        {
+            lifeMultiplier += 0.0005f;
+            life.value += 0.0005f;
+            yield return new WaitForSeconds(1f);
+        }
     }
 }
