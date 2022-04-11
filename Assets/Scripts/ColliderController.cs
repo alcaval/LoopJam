@@ -6,7 +6,7 @@ public class ColliderController : MonoBehaviour
 {
     private GameObject car;
     private CarController carController;
-    [SerializeField] TrailController trailController;
+    [SerializeField] NewTrailController _trailController;
     [SerializeField] private bool _switch = false;
     [SerializeField] private ColliderController cc;
 
@@ -20,14 +20,9 @@ public class ColliderController : MonoBehaviour
         if(carController.isCarDrifting(out float latVelocity, out bool isDrifting) && other.tag == "Car" && _switch)
         {
             Debug.Log("Tremendo loop");
-            trailController.setPolygon(other.ClosestPoint(transform.position));
-            trailController.ClearPoints(true);
-            cc.clearSelf();
+            _trailController.setPolygon(other.ClosestPoint(transform.position));
+            _trailController.ClearPoints();
+            //cc.clearSelf();
         }
-    }
-
-    public void clearSelf()
-    {
-        trailController.ClearPoints(true);
     }
 }
