@@ -13,6 +13,8 @@ public class NewTrailController : MonoBehaviour
     private List<Vector2> _points = new List<Vector2>();
     private List<Vector2> _pointsAux = new List<Vector2>();
 
+    private bool _hasCleared = false;
+
     private void Awake() {
         _carController = GetComponent<CarController>();
 
@@ -30,10 +32,13 @@ public class NewTrailController : MonoBehaviour
             _points.Add(GameObject.FindGameObjectWithTag("Player").transform.position);
 
             _edgeCollider.points = _points.ToArray();
+            _hasCleared = false;
         }
-        else{
+        else if(!_hasCleared)
+        {
             _pointsAux = _points;
             ClearPoints();
+            _hasCleared = true;
         }
     }
 
@@ -49,20 +54,22 @@ public class NewTrailController : MonoBehaviour
     public void setPolygon(Vector2 hit)
     {
         List<Vector2> newPoints = new List<Vector2>();
-        
-        int i = 0;
-        bool ahoraSi = false;
-        foreach(Vector2 v in _pointsAux)
+
+        float minDistance = Mathf.Infinity;
+        int index = 0;
+        for(int i=0; i < _pointsAux.Count/2; ++i)
         {
-            if(ahoraSi)
+            Vector2 v = _pointsAux[i];
+            if(Vector2.Distance(hit,v) <= minDistance)
             {
-                newPoints.Add(v);
+                minDistance = Vector2.Distance(hit,v);
+                index = i;
             }
-
-            if(Vector2.Distance(hit,v) < 0.4) ahoraSi = true;
-            i++;
+            else 
+            {
+                break;
+            }
         }
-
-        _detectionArea.points = newPoints.ToArray();
+        _detectionArea.points = _pointsAux.GetRange(index, _pointsAux.Count - index).ToArray();
     }
 }
