@@ -12,6 +12,8 @@ public class CarController : MonoBehaviour
     private float steeringInput = 0;
     private float rotationAngle = 0;
     private float velocityUp = 0;
+    private bool backwards = false;
+
     [SerializeField] float driftFactor = 0.95f;
 
     private Rigidbody2D carRB;
@@ -44,6 +46,13 @@ public class CarController : MonoBehaviour
     {
         steeringInput = Input.GetAxis("Horizontal");
         accelerationInput = Input.GetAxis("Vertical");
+        if(accelerationInput > 0)
+        {
+            backwards = false;
+        }
+        else{
+            backwards = true;
+        }
     }
 
     private void ApplyEngineForce()
@@ -51,7 +60,11 @@ public class CarController : MonoBehaviour
         velocityUp = Vector2.Dot(transform.up, carRB.velocity);
 
         if(velocityUp > maxSpeed && accelerationInput > 0) return;
-        if(velocityUp < -maxSpeed && accelerationInput < 0) return;
+        if(velocityUp < -maxSpeed && accelerationInput < 0)
+        {
+
+            return;  
+        } 
         if(carRB.velocity.sqrMagnitude > maxSpeed * maxSpeed && accelerationInput > 0) return;
 
         if(accelerationInput == 0)
@@ -93,13 +106,13 @@ public class CarController : MonoBehaviour
         latVelocity = GetLateralVelocity();
         isDrifting = false;
 
-        if(accelerationInput < 0 && velocityUp > 0)
+        if(accelerationInput < 0 && velocityUp > 0 && !backwards)
         {
             isDrifting = true;
             return true;
         }
 
-        if(Mathf.Abs(GetLateralVelocity()) > 2.5f)
+        if(Mathf.Abs(GetLateralVelocity()) > 2.5f && !backwards)
             return true;
         
         return false;
