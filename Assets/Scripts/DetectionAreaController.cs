@@ -12,6 +12,18 @@ public class DetectionAreaController : MonoBehaviour
         {
             cmscreenshake.ShakeCamera(8, 1f);
             other.gameObject.transform.parent.gameObject.SetActive(false);
+            poly.pathCount = 0;
+        }
+        
+        if(other.tag == "Car")
+        {
+            poly.pathCount = 0;
         }
     }
+
+    private void Update() {
+        
+    }
+
+
 }

@@ -28,8 +28,6 @@ public class NewTrailController : MonoBehaviour
         {
             _trailRendererLeft.emitting = true;
             _trailRendererRight.emitting = true;
-
-            //_points.Add(GameObject.FindGameObjectWithTag("Player").transform.position);
             
             int i = _trailRendererLeft.GetPositions(positions);
             
@@ -43,16 +41,6 @@ public class NewTrailController : MonoBehaviour
             Vector2[] v = lista.ToArray();
 
             _edgeCollider.points = v;
-
-            // numVerticesRelativo = _trailRendererLeft.GetPositions(positions);
-
-            // foreach(Vector3 v in positions)
-            // {
-            //     if(v.x == 0f && v.y == 0) break;
-            //     _points.Add(v);
-            // }
-
-            //_edgeCollider.points = _points.ToArray();
         }
         else
         {
@@ -91,6 +79,7 @@ public class NewTrailController : MonoBehaviour
                 break;
             }
         }
+        _detectionArea.gameObject.SetActive(true);
         _detectionArea.points = _pointsAux.GetRange(index, _pointsAux.Count - index).ToArray();
     }
 }
