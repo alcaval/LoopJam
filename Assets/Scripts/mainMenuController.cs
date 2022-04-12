@@ -7,6 +7,7 @@ public class mainMenuController : MonoBehaviour
     [SerializeField] private GameFlowController gfc;
     private bool inPlayScene = false;
     [SerializeField] private GameObject pausedCanvas;
+    public bool paused = false;
 
     private void Start() {
         PlayerPrefs.SetInt("scene", 1);
@@ -18,6 +19,7 @@ public class mainMenuController : MonoBehaviour
         {
             if(Input.GetKeyDown(KeyCode.Escape))
             {
+                paused = true;
                 pausedCanvas.SetActive(true);
                 Time.timeScale = 0;
             }
@@ -41,6 +43,7 @@ public class mainMenuController : MonoBehaviour
     public void continueGame()
     {
         Time.timeScale = 1;
+        paused = false;
         pausedCanvas.SetActive(false);
     }
 }

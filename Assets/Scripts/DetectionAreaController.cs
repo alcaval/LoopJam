@@ -11,8 +11,7 @@ public class DetectionAreaController : MonoBehaviour
         if(other.tag == "Enemy")
         {
             cmscreenshake.ShakeCamera(8, 1f);
-            
-            Destroy(other.gameObject);
+            Destroy(other.gameObject.transform.parent.gameObject);
         }
     }
 }

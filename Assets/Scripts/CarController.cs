@@ -24,6 +24,7 @@ public class CarController : MonoBehaviour
 
     private float lifeMultiplier = 1f;
     private float healCooldown = 1f;
+    [SerializeField] private mainMenuController _mainMenuController;
 
     private void Awake() 
     {
@@ -35,7 +36,7 @@ public class CarController : MonoBehaviour
     {
         GetInput();
 
-        if(lifeMultiplier != 1f) StartCoroutine(HealCoroutine());
+        if(lifeMultiplier != 1f && !_mainMenuController.paused) StartCoroutine(HealCoroutine());
     }
 
     private void FixedUpdate() 
@@ -136,8 +137,8 @@ public class CarController : MonoBehaviour
     {   
         if(!isCarDrifting(out float latVelocity, out bool isDrifting))
         {
-            lifeMultiplier += 0.0005f;
-            life.value += 0.0005f;
+            lifeMultiplier += 0.001f;
+            life.value += 0.0001f;
             yield return new WaitForSeconds(1f);
         }
     }
