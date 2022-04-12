@@ -23,7 +23,6 @@ public class CarController : MonoBehaviour
     private Rigidbody2D carRB;
 
     private float lifeMultiplier = 1f;
-    private float healCooldown = 1f;
     [SerializeField] private mainMenuController _mainMenuController;
     [SerializeField] private GameObject _gameOverMenu;
 

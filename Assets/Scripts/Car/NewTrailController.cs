@@ -13,9 +13,6 @@ public class NewTrailController : MonoBehaviour
     private List<Vector2> _points = new List<Vector2>();
     private List<Vector2> _pointsAux = new List<Vector2>();
 
-    private bool _hasCleared = false;
-
-    private int numVerticesRelativo = 0;
     Vector3[] positions = new Vector3[1000];
 
     private void Awake() {
@@ -56,13 +53,11 @@ public class NewTrailController : MonoBehaviour
             // }
 
             //_edgeCollider.points = _points.ToArray();
-            _hasCleared = false;
         }
         else
         {
             _pointsAux = _points;
             ClearPoints();
-            _hasCleared = true;
         }
     }
 

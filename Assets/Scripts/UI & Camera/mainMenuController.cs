@@ -5,7 +5,6 @@ using UnityEngine;
 public class mainMenuController : MonoBehaviour
 {
     [SerializeField] private GameFlowController gfc;
-    private bool inPlayScene = false;
     [SerializeField] private GameObject pausedCanvas;
     public bool paused = false;
 

@@ -48,10 +48,17 @@ namespace LoopJam
 
         private void Update()
         {
+            var distance = Vector2.Distance(transform.position, _objective.position);
+            
+            if(distance > _shootDistance)
+            {
+                transform.parent.gameObject.SetActive(false);
+            }
+
             if (!rotateTowardsObjective())
             {
                 // Shoot
-                if (_timeSinceShot >= _shootSpeed && Vector2.Distance(transform.position, _objective.position) <= _shootDistance)
+                if (_timeSinceShot >= _shootSpeed)
                 {
                     InstantiateBullet(transform.position + transform.right, transform.rotation);
                     _timeSinceShot = 0;
