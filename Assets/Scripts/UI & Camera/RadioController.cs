@@ -10,8 +10,14 @@ public class RadioController : MonoBehaviour
     [SerializeField] private AudioSource button;
     [SerializeField] private AudioClip lofi;
     [SerializeField] private AudioClip metal;
+    [SerializeField] private AudioClip sunday;
+    [SerializeField] private AudioClip mami;
+    [SerializeField] private AudioClip tropic;
+    [SerializeField] private AudioClip hiphop;
 
-    private AudioClip[] channel = new AudioClip[2];
+
+
+    private AudioClip[] channel = new AudioClip[6];
     private int currentChannel = 0;
 
     [SerializeField] private TMP_Text channelText;
@@ -21,8 +27,15 @@ public class RadioController : MonoBehaviour
     {
         channel[0] = lofi;
         channel[1] = metal;
+        channel[2] = sunday;
+        channel[3] = mami;
+        channel[4] = tropic;
+        channel[5] = hiphop;
+
 
         source.clip = channel[currentChannel];
+        currentChannel = Mathf.Abs(currentChannel - 1) % (channel.Length);
+        channelText.text = channel[currentChannel].name;
     }
 
     // Update is called once per frame
@@ -30,7 +43,6 @@ public class RadioController : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.Q))
         {
-            print("anterior");
             source.clip = channel[Mathf.Abs(currentChannel - 1) % (channel.Length)];
             currentChannel = Mathf.Abs(currentChannel - 1) % (channel.Length);
             channelText.text = channel[currentChannel].name;
@@ -41,7 +53,6 @@ public class RadioController : MonoBehaviour
 
         if(Input.GetKeyDown(KeyCode.E))
         {
-            print("posterior");
             print(source.clip);
             source.clip = channel[Mathf.Abs(currentChannel + 1) % (channel.Length)];
             currentChannel = Mathf.Abs(currentChannel + 1) % (channel.Length);
