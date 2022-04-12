@@ -30,6 +30,8 @@ public class CarController : MonoBehaviour
     [SerializeField] private Material _enemyMaterial;
     [SerializeField] private Color _originalCar, _originalTurret;
     [SerializeField] private Color _damageColor;
+    [SerializeField] private AudioSource _damageAudio;
+
 
     public Vector3 Velocity
     {
@@ -42,6 +44,8 @@ public class CarController : MonoBehaviour
     private void Awake() 
     {
         carRB = GetComponent<Rigidbody2D>();
+        _carMaterial.color = _originalCar;
+        _enemyMaterial.color = _originalTurret;
     }
 
     // Update is called once per frame
@@ -165,6 +169,7 @@ public class CarController : MonoBehaviour
         //Se cambia el color
         _carMaterial.color = _damageColor;
         _enemyMaterial.color = _damageColor;
+        _damageAudio.Play();
         _mainMenuController.gameObject.transform.GetChild(0).gameObject.SetActive(false);
         yield return new WaitForSeconds(0.5f);
         _mainMenuController.gameObject.transform.GetChild(0).gameObject.SetActive(true);
