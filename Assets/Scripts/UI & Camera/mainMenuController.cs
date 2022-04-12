@@ -46,4 +46,9 @@ public class mainMenuController : MonoBehaviour
         paused = false;
         pausedCanvas.SetActive(false);
     }
+
+    public void restart()
+    {
+        gfc.LoadScene("carLoop");
+    }
 }

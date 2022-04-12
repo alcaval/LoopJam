@@ -25,6 +25,7 @@ public class CarController : MonoBehaviour
     private float lifeMultiplier = 1f;
     private float healCooldown = 1f;
     [SerializeField] private mainMenuController _mainMenuController;
+    [SerializeField] private GameObject _gameOverMenu;
 
     private void Awake() 
     {
@@ -41,10 +42,13 @@ public class CarController : MonoBehaviour
 
     private void FixedUpdate() 
     {
-        if(Input.GetKeyDown(KeyCode.Space))
+        if(life.value <= 0.1)
         {
-            takeDamage(0.3f);
+            gameObject.SetActive(false);
+            _gameOverMenu.SetActive(true);
+            //Time.timeScale = 0;
         }
+
         ApplyEngineForce();
         KillOrthogonalVelocity();
         ApplySteering();
