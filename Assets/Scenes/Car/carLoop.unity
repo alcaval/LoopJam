@@ -711,7 +711,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pooledObjects: []
-  objectToPool: {fileID: 1716731435028549000, guid: 49d80e1f7659f3f4f8857489c10e9fcc, type: 3}
+  objectToPool: {fileID: 843526491789848575, guid: 32b75f094f11aa2458d06516915b963d, type: 3}
   amountToPool: 100
 --- !u!4 &1137908560
 Transform:
@@ -843,6 +843,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gfc: {fileID: 160547844}
   pausedCanvas: {fileID: 1123380540}
+  paused: 0
 --- !u!1 &1277551447
 GameObject:
   m_ObjectHideFlags: 0
@@ -1978,6 +1979,10 @@ PrefabInstance:
       propertyPath: cmscreenshake
       value: 
       objectReference: {fileID: 1961023091}
+    - target: {fileID: 6216335690003961827, guid: f4abad250467a2945a67031f2f384e04, type: 3}
+      propertyPath: _mainMenuController
+      value: 
+      objectReference: {fileID: 1264089696}
     - target: {fileID: 6216335690003961828, guid: f4abad250467a2945a67031f2f384e04, type: 3}
       propertyPath: m_Name
       value: Car
