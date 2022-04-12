@@ -26,6 +26,11 @@ public class CarController : MonoBehaviour
     [SerializeField] private mainMenuController _mainMenuController;
     [SerializeField] private GameObject _gameOverMenu;
 
+    [SerializeField] private Material _carMaterial;
+    [SerializeField] private Material _enemyMaterial;
+    [SerializeField] private Color _originalCar, _originalTurret;
+    [SerializeField] private Color _damageColor;
+
     public Vector3 Velocity
     {
         get
@@ -158,9 +163,13 @@ public class CarController : MonoBehaviour
     IEnumerator takeDamageCoroutine()
     {
         //Se cambia el color
+        _carMaterial.color = _damageColor;
+        _enemyMaterial.color = _damageColor;
         _mainMenuController.gameObject.transform.GetChild(0).gameObject.SetActive(false);
         yield return new WaitForSeconds(0.5f);
         _mainMenuController.gameObject.transform.GetChild(0).gameObject.SetActive(true);
         //Se vuelve a poner
+        _carMaterial.color = _originalCar;
+        _enemyMaterial.color = _originalTurret;
     }
 }
