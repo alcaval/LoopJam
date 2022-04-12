@@ -30,8 +30,8 @@ namespace LoopJam
 
         [Header("Shoot options")]
 
-        [Tooltip("Prefab of the bullet the turret shoots.")]
-        [SerializeField] private GameObject _bulletPrefab;
+        [Tooltip("Maximum distance allowed to shoot the player.")]
+        [SerializeField] private float _shootDistance;
 
         [Tooltip("Time between bullets.")]
         [SerializeField] private float _shootSpeed;
@@ -41,19 +41,19 @@ namespace LoopJam
 
         #region LifeCycle
 
-        private void Awake() 
+        private void Awake()
         {
-            _objective = GameObject.FindGameObjectWithTag("Car").transform;    
+            _objective = GameObject.FindGameObjectWithTag("Car").transform;
         }
 
         private void Update()
         {
-            if(!rotateTowardsObjective())
+            if (!rotateTowardsObjective())
             {
                 // Shoot
-                if(_timeSinceShot >= _shootSpeed)
+                if (_timeSinceShot >= _shootSpeed && Vector2.Distance(transform.position, _objective.position) <= _shootDistance)
                 {
-                    Instantiate(_bulletPrefab, transform.position + transform.right, transform.rotation);
+                    InstantiateBullet(transform.position + transform.right, transform.rotation);
                     _timeSinceShot = 0;
                 }
                 else
@@ -63,7 +63,7 @@ namespace LoopJam
             }
             else
             {
-                _timeSinceShot = _shootSpeed/2;
+                _timeSinceShot = _shootSpeed / 2;
             }
         }
 
@@ -83,7 +83,7 @@ namespace LoopJam
 
             float angle = Mathf.Atan2(targ.y, targ.x) * Mathf.Rad2Deg;
 
-            if(Quaternion.Angle(transform.rotation, Quaternion.Euler(new Vector3(0, 0, angle))) > _rotationThreshold)
+            if (Quaternion.Angle(transform.rotation, Quaternion.Euler(new Vector3(0, 0, angle))) > _rotationThreshold)
             {
                 angle = Mathf.LerpAngle(transform.rotation.eulerAngles.z, angle, _rotationSpeed * Time.deltaTime);
                 transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
@@ -91,6 +91,17 @@ namespace LoopJam
             }
 
             return false;
+        }
+
+        private void InstantiateBullet(Vector3 position, Quaternion rotation)
+        {
+            GameObject bullet = BulletPool.SharedInstance.GetPooledObject();
+            if (bullet != null)
+            {
+                bullet.transform.position = position;
+                bullet.transform.rotation = rotation;
+                bullet.SetActive(true);
+            }
         }
 
         #endregion
