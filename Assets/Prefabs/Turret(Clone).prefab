@@ -205,9 +205,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97ab9239b68e3734ea8d80ce84a2efe7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _renderDistance: 30
   _objective: {fileID: 0}
+  _player: {fileID: 0}
   _rotationSpeed: 5
-  _rotationThreshold: 10
+  _rotationThreshold: 15
   _shootDistance: 10
   _shootSpeed: 2
 --- !u!1 &6186491779234066788

@@ -48,5 +48,19 @@ namespace LoopJam
             }
             return null;
         }
+
+        public List<GameObject> GetActiveObjects()
+        {
+            List<GameObject> active = new List<GameObject>();
+            for(int i=0; i<amountToPool; ++i)
+            {
+                if (pooledObjects[i].activeInHierarchy)
+                {
+                    active.Add(pooledObjects[i]);
+                }
+            }
+
+            return active;
+        }
     }
 }

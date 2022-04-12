@@ -26,6 +26,14 @@ public class CarController : MonoBehaviour
     [SerializeField] private mainMenuController _mainMenuController;
     [SerializeField] private GameObject _gameOverMenu;
 
+    public Vector3 Velocity
+    {
+        get
+        {
+            return carRB.velocity;
+        }
+    }
+
     private void Awake() 
     {
         carRB = GetComponent<Rigidbody2D>();

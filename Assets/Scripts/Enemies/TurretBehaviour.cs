@@ -18,8 +18,12 @@ namespace LoopJam
 
         [Header("Tracking options")]
 
+        [SerializeField] private float _renderDistance;
+
         [Tooltip("Objective to destroy.")]
         [SerializeField] private Transform _objective;
+        [SerializeField] private CarController _playerController;
+
 
         [Tooltip("Speed the turret rotates towards its objective.")]
         [Min(0.01f)]
@@ -44,13 +48,14 @@ namespace LoopJam
         private void Awake()
         {
             _objective = GameObject.FindGameObjectWithTag("Car").transform;
+            _playerController = GameObject.FindGameObjectWithTag("Car").GetComponent<CarController>();
         }
 
         private void Update()
         {
             var distance = Vector2.Distance(transform.position, _objective.position);
             
-            if(distance > _shootDistance)
+            if(distance > _renderDistance)
             {
                 transform.parent.gameObject.SetActive(false);
             }
@@ -58,7 +63,7 @@ namespace LoopJam
             if (!rotateTowardsObjective())
             {
                 // Shoot
-                if (_timeSinceShot >= _shootSpeed)
+                if (_timeSinceShot >= _shootSpeed && distance <= _shootDistance)
                 {
                     InstantiateBullet(transform.position + transform.right, transform.rotation);
                     _timeSinceShot = 0;
@@ -90,7 +95,14 @@ namespace LoopJam
 
             float angle = Mathf.Atan2(targ.y, targ.x) * Mathf.Rad2Deg;
 
-            if (Quaternion.Angle(transform.rotation, Quaternion.Euler(new Vector3(0, 0, angle))) > _rotationThreshold)
+            var threshold = _rotationThreshold;
+
+            if(_playerController.Velocity.magnitude < 1f)
+            {
+                threshold = 0.5f;
+            }
+
+            if (Quaternion.Angle(transform.rotation, Quaternion.Euler(new Vector3(0, 0, angle))) > threshold)
             {
                 angle = Mathf.LerpAngle(transform.rotation.eulerAngles.z, angle, _rotationSpeed * Time.deltaTime);
                 transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
