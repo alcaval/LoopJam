@@ -32,10 +32,9 @@ public class RadioController : MonoBehaviour
         channel[4] = tropic;
         channel[5] = hiphop;
 
-
         source.clip = channel[currentChannel];
         currentChannel = Mathf.Abs(currentChannel - 1) % (channel.Length);
-        channelText.text = channel[currentChannel].name;
+        channelText.text = "Nightdrive";
     }
 
     // Update is called once per frame

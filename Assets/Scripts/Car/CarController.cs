@@ -22,6 +22,10 @@ public class CarController : MonoBehaviour
 
     private Rigidbody2D carRB;
 
+    //HealthThings
+    public int maxHealth = 100;
+    public float currentHealth = 100f;
+
     private float lifeMultiplier = 1f;
     [SerializeField] private mainMenuController _mainMenuController;
     [SerializeField] private GameObject _gameOverMenu;
@@ -31,6 +35,8 @@ public class CarController : MonoBehaviour
     [SerializeField] private Color _originalCar, _originalTurret;
     [SerializeField] private Color _damageColor;
     [SerializeField] private AudioSource _damageAudio;
+
+    private bool healingC = false;
 
 
     public Vector3 Velocity
@@ -53,12 +59,12 @@ public class CarController : MonoBehaviour
     {
         GetInput();
 
-        if(lifeMultiplier != 1f && !_mainMenuController.paused) StartCoroutine(HealCoroutine());
+        if(currentHealth > 0 && !_mainMenuController.paused && !healingC) StartCoroutine(HealCoroutine());
     }
 
     private void FixedUpdate() 
     {
-        if(life.value <= 0.1)
+        if(currentHealth <= 0)
         {
             gameObject.SetActive(false);
             _gameOverMenu.SetActive(true);
@@ -149,8 +155,9 @@ public class CarController : MonoBehaviour
     public void takeDamage(float value)
     {
         cmscreenshake.ShakeCamera(8, 0.5f);
-        lifeMultiplier -= value;
-        life.value = lifeMultiplier;
+        life.value -= value;
+        currentHealth -= value;
+        print(life.value + " " + currentHealth);
         StartCoroutine(takeDamageCoroutine());
     }
 
@@ -158,9 +165,13 @@ public class CarController : MonoBehaviour
     {   
         if(!isCarDrifting(out float latVelocity, out bool isDrifting))
         {
-            lifeMultiplier += 0.001f;
-            life.value += 0.0001f;
+            healingC = true;
             yield return new WaitForSeconds(1f);
+            print("healing");
+            currentHealth += 1f;
+            life.value += 1f;
+            currentHealth = life.value;
+            healingC = false;
         }
     }
 
