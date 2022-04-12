@@ -14,10 +14,12 @@ public class RadioController : MonoBehaviour
     [SerializeField] private AudioClip mami;
     [SerializeField] private AudioClip tropic;
     [SerializeField] private AudioClip hiphop;
+    [SerializeField] private AudioClip flamenco;
+    
 
 
 
-    private AudioClip[] channel = new AudioClip[6];
+    private AudioClip[] channel = new AudioClip[7];
     private int currentChannel = 0;
 
     [SerializeField] private TMP_Text channelText;
@@ -31,6 +33,7 @@ public class RadioController : MonoBehaviour
         channel[3] = mami;
         channel[4] = tropic;
         channel[5] = hiphop;
+        channel[6] = flamenco;
 
         source.clip = channel[currentChannel];
         currentChannel = Mathf.Abs(currentChannel - 1) % (channel.Length);
