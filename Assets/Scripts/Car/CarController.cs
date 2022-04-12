@@ -139,9 +139,10 @@ public class CarController : MonoBehaviour
 
     public void takeDamage(float value)
     {
-        cmscreenshake.ShakeCamera(8, 1f);
+        cmscreenshake.ShakeCamera(8, 0.5f);
         lifeMultiplier -= value;
         life.value = lifeMultiplier;
+        StartCoroutine(takeDamageCoroutine());
     }
 
     IEnumerator HealCoroutine()
@@ -152,5 +153,14 @@ public class CarController : MonoBehaviour
             life.value += 0.0001f;
             yield return new WaitForSeconds(1f);
         }
+    }
+
+    IEnumerator takeDamageCoroutine()
+    {
+        //Se cambia el color
+        _mainMenuController.gameObject.transform.GetChild(0).gameObject.SetActive(false);
+        yield return new WaitForSeconds(0.5f);
+        _mainMenuController.gameObject.transform.GetChild(0).gameObject.SetActive(true);
+        //Se vuelve a poner
     }
 }
