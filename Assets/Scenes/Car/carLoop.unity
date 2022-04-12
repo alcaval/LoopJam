@@ -544,7 +544,7 @@ MonoBehaviour:
   _playerTransform: {fileID: 319959694}
   _maxDistance: 7
   _minDistance: 3
-  _timeToSpawn: 10
+  _timeToSpawn: 2
 --- !u!4 &825040901
 Transform:
   m_ObjectHideFlags: 0
