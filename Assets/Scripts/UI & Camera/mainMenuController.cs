@@ -7,14 +7,11 @@ public class mainMenuController : MonoBehaviour
     [SerializeField] private GameFlowController gfc;
     [SerializeField] private GameObject pausedCanvas;
     public bool paused = false;
+    public int scene = 0;
 
-    private void Start() {
-        PlayerPrefs.SetInt("scene", 1);
-        PlayerPrefs.Save();
-    }
 
     private void Update() {
-        if(PlayerPrefs.GetInt("scene") > 0)
+        if(scene > 0)
         {
             if(Input.GetKeyDown(KeyCode.Escape))
             {
@@ -34,8 +31,6 @@ public class mainMenuController : MonoBehaviour
 
     public void exitGame()
     {
-        PlayerPrefs.SetInt("scene", 0);
-        PlayerPrefs.Save();
         Application.Quit();
     }
 

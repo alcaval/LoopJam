@@ -534,6 +534,10 @@ PrefabInstance:
       propertyPath: gfc
       value: 
       objectReference: {fileID: 2139512080}
+    - target: {fileID: 94417494656895220, guid: b4d7bd7a3196e9240ae93f2d2e7ab243, type: 3}
+      propertyPath: scene
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 94417494656895221, guid: b4d7bd7a3196e9240ae93f2d2e7ab243, type: 3}
       propertyPath: m_Pivot.x
       value: 0
