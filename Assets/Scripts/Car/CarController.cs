@@ -26,7 +26,6 @@ public class CarController : MonoBehaviour
     public int maxHealth = 100;
     public float currentHealth = 100f;
 
-    private float lifeMultiplier = 1f;
     [SerializeField] private mainMenuController _mainMenuController;
     [SerializeField] private GameObject _gameOverMenu;
 
